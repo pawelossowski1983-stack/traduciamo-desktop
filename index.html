@@ -94,8 +94,7 @@
         <button class="btn btn-primary" onclick="translateText()" style="margin-top: 1rem;">🔄 Przetłumacz</button>
         
         <div id="loading-text" class="loading hidden">
-          <div class="spinner"></div>
-          <p>Tłumaczę<span class="dots-loader"><span></span><span></span><span></span></span></p>
+          <p style="font-size: 1.1rem; font-weight: 600;">Tłumaczę<span class="dots-loader"><span></span><span></span><span></span></span></p>
         </div>
         
         <div id="resultBox-text" class="result-box hidden">
@@ -115,8 +114,7 @@
         </div>
         
         <div id="loading-speech" class="loading hidden">
-          <div class="spinner"></div>
-          <p>Tłumaczę<span class="dots-loader"><span></span><span></span><span></span></span></p>
+          <p style="font-size: 1.1rem; font-weight: 600;">Tłumaczę<span class="dots-loader"><span></span><span></span><span></span></span></p>
         </div>
         
         <div id="resultBox-speech" class="result-box hidden">
@@ -144,8 +142,7 @@
         </div>
         
         <div id="loading-screenshot" class="loading hidden">
-          <div class="spinner"></div>
-          <p>Tłumaczę<span class="dots-loader"><span></span><span></span><span></span></span></p>
+          <p style="font-size: 1.1rem; font-weight: 600;">Tłumaczę<span class="dots-loader"><span></span><span></span><span></span></span></p>
         </div>
         
         <div id="resultBox-screenshot" class="result-box hidden">
@@ -600,7 +597,28 @@
           role: "user",
           content: [
             { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64 } },
-            { type: "text", text: "Rozpoznaj tekst z tego obrazu (OCR). Jeśli tekst jest po włosku, przetłumacz na polski. Jeśli po polsku, przetłumacz na włoski. TYLKO tłumaczenie." }
+            { type: "text", text: `Rozpoznaj tekst z tego obrazu (OCR) i przetłumacz go.
+
+INSTRUKCJE:
+1. Odczytaj cały tekst z obrazu, zachowując jego strukturę
+2. Jeśli tekst jest po włosku → przetłumacz na polski
+3. Jeśli tekst jest po polsku → przetłumacz na włoski
+4. ZACHOWAJ formatowanie:
+   - Nowe linie (Enter) → zachowaj jako \\n
+   - Akapity → zachowaj odstępy
+   - Listy punktowane → zachowaj numerację/punkty
+   - Nagłówki → zachowaj wielkość liter
+5. Odpowiedz TYLKO przetłumaczonym tekstem z zachowanym formatowaniem
+
+Przykład:
+Jeśli obraz zawiera:
+"Witaj!
+
+Jak się masz?"
+
+Odpowiedź: "Ciao!
+
+Come stai?"` }
           ]
         }], 3000);
         
@@ -897,9 +915,7 @@
                   : 'background: white; border: 2px solid #e5e7eb; color: #1f2937;'
             }">
               ${isTyping ? `
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <span>💬</span>
-                  <span>Nauczyciel odpowiada</span>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.5rem;">
                   <span class="dots-loader" style="color: #3b82f6;">
                     <span></span><span></span><span></span>
                   </span>
@@ -1015,7 +1031,12 @@
       const resultBox = document.getElementById(`resultBox-${source}`);
       if (resultBox) {
         resultBox.classList.remove('hidden');
-        resultBox.querySelector('.result-text').textContent = text;
+        
+        // Zachowaj formatowanie tekstu (nowe linie, odstępy)
+        const resultTextEl = resultBox.querySelector('.result-text');
+        resultTextEl.style.whiteSpace = 'pre-wrap'; // Zachowuje \n i spacje
+        resultTextEl.textContent = text;
+        
         const lektorSpan = document.getElementById(`lektorLang-${source}`);
         if (lektorSpan) {
           lektorSpan.textContent = lastTranslationLang === 'pl' ? 'Polski' : 'Italiano';
