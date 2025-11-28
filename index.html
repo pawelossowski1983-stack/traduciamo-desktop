@@ -635,7 +635,7 @@
         const data = await callAPI([{
           role: "user",
           content: [
-            { type: "image", source: { type: "base64", media_type: "image/png", data: base64 } },
+            { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64 } },
             { type: "text", text: "Rozpoznaj tekst z tego obrazu (OCR). Jeśli tekst jest po włosku, przetłumacz na polski. Jeśli po polsku, przetłumacz na włoski. TYLKO tłumaczenie." }
           ]
         }], 3000);
@@ -649,7 +649,11 @@
           document.getElementById('pasteArea').style.background = '#f8fafc';
         }, 2000);
       } catch (error) {
-        alert('Błąd OCR: ' + error.message);
+        console.error('❌ OCR Error:', error);
+        const errorMsg = error.message.includes('details') 
+          ? error.message 
+          : 'Błąd OCR: ' + error.message + '\n\nSpróbuj:\n• Mniejszy zrzut ekranu\n• Lepiej widoczny tekst\n• Odśwież stronę';
+        alert(errorMsg);
         document.getElementById('pasteArea').style.borderColor = '#ef4444';
         document.getElementById('pasteArea').style.background = '#fef2f2';
         
@@ -673,7 +677,7 @@
             
             let width = img.width;
             let height = img.height;
-            const maxSize = 1600;
+            const maxSize = 1200; // Zmniejszone dla pewności
             
             if (width > height && width > maxSize) {
               height = (height * maxSize) / width;
@@ -687,7 +691,7 @@
             canvas.height = height;
             ctx.drawImage(img, 0, 0, width, height);
             
-            resolve(canvas.toDataURL('image/jpeg', 0.85));
+            resolve(canvas.toDataURL('image/jpeg', 0.75)); // Większa kompresja
           };
           img.src = e.target.result;
         };
