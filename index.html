@@ -160,7 +160,7 @@
       <div class="tabs">
         <button class="tab active" onclick="switchTab('text')">📝 Tekst</button>
         <button class="tab" onclick="switchTab('speech')">🎤 Mowa</button>
-        <button class="tab" onclick="switchTab('photo')">📸 Foto</button>
+        <button class="tab" onclick="switchTab('screenshot')">📸 Zrzut</button>
         <button class="tab" onclick="switchTab('history')">📚 Historia (<span id="historyCount">0</span>)</button>
         <button class="tab" onclick="switchTab('teacher')">👨‍🏫 AI</button>
       </div>
@@ -194,20 +194,26 @@
         </div>
       </div>
 
-      <!-- Zakładka Foto -->
-      <div id="tab-photo" class="tab-content">
+      <!-- Zakładka Screenshot -->
+      <div id="tab-screenshot" class="tab-content">
         <div style="text-align: center;">
-          <p style="color: #6b7280; margin-bottom: 1rem;">Zrób zdjęcie tekstu do przetłumaczenia</p>
-          <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;" onchange="handlePhotoUpload(event)">
-          <button class="btn btn-primary" onclick="document.getElementById('photoInput').click()">📸 Zrób zdjęcie</button>
-          <canvas id="photoCanvas" style="display: none;"></canvas>
+          <p style="color: #6b7280; margin-bottom: 1rem;">
+            <strong>Windows:</strong> Win + Shift + S<br>
+            <strong>Mac:</strong> Cmd + Shift + 4
+          </p>
+          <div id="pasteArea" style="border: 3px dashed #cbd5e1; border-radius: 1rem; padding: 3rem 2rem; background: #f8fafc; cursor: pointer; transition: all 0.3s;" onclick="focusPasteArea()">
+            <p style="font-size: 2rem; margin-bottom: 0.5rem;">📋</p>
+            <p style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">Kliknij tutaj i wklej (Ctrl+V)</p>
+            <p style="font-size: 0.85rem; color: #6b7280;">Zrób screenshot i wklej go tutaj</p>
+          </div>
+          <canvas id="screenshotCanvas" style="display: none;"></canvas>
         </div>
-        <div id="resultBox-photo" class="result-box hidden">
+        <div id="resultBox-screenshot" class="result-box hidden">
           <div class="result-header">
             <strong style="color: #3b82f6;">✅ Tłumaczenie:</strong>
-            <button class="btn-speak" onclick="speakTranslation()"><span id="lektor-lang-photo">🔊</span></button>
+            <button class="btn-speak" onclick="speakTranslation()"><span id="lektor-lang-screenshot">🔊</span></button>
           </div>
-          <div class="result-text" id="resultText-photo"></div>
+          <div class="result-text" id="resultText-screenshot"></div>
         </div>
       </div>
 
@@ -577,42 +583,92 @@
     // PHOTO OCR
     // ============================================
 
-    async function handlePhotoUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    // ============================================
+    // SCREENSHOT PASTE
+    // ============================================
 
+    let isPasteReady = false;
+
+    function focusPasteArea() {
+      const area = document.getElementById('pasteArea');
+      area.focus();
+      area.style.borderColor = '#3b82f6';
+      area.style.background = '#eff6ff';
+      isPasteReady = true;
+      
+      setTimeout(() => {
+        if (isPasteReady) {
+          area.style.borderColor = '#cbd5e1';
+          area.style.background = '#f8fafc';
+        }
+      }, 5000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('pasteArea').addEventListener('paste', async (e) => {
+        e.preventDefault();
+        const items = e.clipboardData.items;
+        
+        for (let item of items) {
+          if (item.type.indexOf('image') !== -1) {
+            const blob = item.getAsFile();
+            await handleScreenshotPaste(blob);
+            break;
+          }
+        }
+      });
+
+      document.getElementById('pasteArea').setAttribute('tabindex', '0');
+    });
+
+    async function handleScreenshotPaste(blob) {
+      isPasteReady = false;
+      document.getElementById('pasteArea').style.borderColor = '#10b981';
+      document.getElementById('pasteArea').style.background = '#f0fdf4';
+      
       showLoading();
 
       try {
-        const compressed = await compressImage(file);
+        const compressed = await compressScreenshot(blob);
         const base64 = compressed.split(',')[1];
         
         const data = await callAPI([{
           role: "user",
           content: [
-            { type: "image", source: { type: "base64", media_type: file.type, data: base64 } },
+            { type: "image", source: { type: "base64", media_type: "image/png", data: base64 } },
             { type: "text", text: "Rozpoznaj tekst z tego obrazu (OCR). Jeśli tekst jest po włosku, przetłumacz na polski. Jeśli po polsku, przetłumacz na włoski. TYLKO tłumaczenie." }
           ]
         }], 3000);
         
         const translated = data.content[0].text.trim();
         lastTranslationLang = null;
-        showResult(translated, 'photo');
+        showResult(translated, 'screenshot');
+        
+        setTimeout(() => {
+          document.getElementById('pasteArea').style.borderColor = '#cbd5e1';
+          document.getElementById('pasteArea').style.background = '#f8fafc';
+        }, 2000);
       } catch (error) {
         alert('Błąd OCR: ' + error.message);
+        document.getElementById('pasteArea').style.borderColor = '#ef4444';
+        document.getElementById('pasteArea').style.background = '#fef2f2';
+        
+        setTimeout(() => {
+          document.getElementById('pasteArea').style.borderColor = '#cbd5e1';
+          document.getElementById('pasteArea').style.background = '#f8fafc';
+        }, 2000);
       } finally {
         hideLoading();
-        event.target.value = '';
       }
     }
 
-    function compressImage(file) {
+    function compressScreenshot(blob) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
           const img = new Image();
           img.onload = () => {
-            const canvas = document.getElementById('photoCanvas');
+            const canvas = document.getElementById('screenshotCanvas');
             const ctx = canvas.getContext('2d');
             
             let width = img.width;
@@ -635,7 +691,7 @@
           };
           img.src = e.target.result;
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(blob);
       });
     }
 
