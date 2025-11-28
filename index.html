@@ -135,10 +135,7 @@
       const [isTranslating, setIsTranslating] = useState(false);
       const recognitionRef = useRef(null);
       
-      const [translationHistory, setTranslationHistory] = useState(() => {
-        const saved = localStorage.getItem('translationHistory');
-        return saved ? JSON.parse(saved) : [];
-      });
+      const [translationHistory, setTranslationHistory] = useState([]);
       
       const [chatMessages, setChatMessages] = useState(() => {
         const saved = localStorage.getItem('chatMessages');
@@ -192,10 +189,7 @@
         netlifyIdentity.init();
       }, []);
 
-      useEffect(() => {
-        localStorage.setItem('translationHistory', JSON.stringify(translationHistory));
-      }, [translationHistory]);
-
+      // useEffect dla chatMessages (zostaje w localStorage)
       useEffect(() => {
         localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
       }, [chatMessages]);
@@ -203,6 +197,38 @@
       useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
       }, [chatMessages]);
+      
+      // Ładowanie historii z MongoDB po zalogowaniu
+      useEffect(() => {
+        if (currentUser) {
+          loadHistory();
+        } else {
+          setTranslationHistory([]);
+        }
+      }, [currentUser]);
+      
+      const loadHistory = async () => {
+        if (!currentUser) return;
+        
+        try {
+          const response = await fetch(`${API_URL}/api/history/get?userId=${encodeURIComponent(currentUser.email)}`);
+          if (response.ok) {
+            const data = await response.json();
+            const formatted = data.map(item => ({
+              id: item._id,
+              timestamp: new Date(item.timestamp).toLocaleString('pl-PL'),
+              original: item.original,
+              translated: item.translated,
+              fromLang: item.fromLang,
+              toLang: item.toLang
+            }));
+            setTranslationHistory(formatted);
+            console.log('✅ Historia załadowana z MongoDB:', formatted.length, 'tłumaczeń');
+          }
+        } catch (error) {
+          console.error('❌ Błąd ładowania historii:', error);
+        }
+      };
 
       // API Call
       const callAPI = async (messages, maxTokens = 2000) => {
@@ -275,24 +301,68 @@
         }
       };
 
-      const saveToHistory = (original, translated, fromLang, toLang) => {
+      const saveToHistory = async (original, translated, fromLang, toLang) => {
         const historyItem = {
           id: Date.now(),
           timestamp: new Date().toLocaleString('pl-PL'),
           original,
           translated,
-          direction: `${fromLang}-${toLang}`,
+          fromLang,
+          toLang
         };
         
+        // Dodaj lokalnie od razu (dla UX)
         setTranslationHistory(prev => {
           const newHistory = [historyItem, ...prev];
           return newHistory.slice(0, 100);
         });
+        
+        // Zapisz do MongoDB w tle
+        if (currentUser) {
+          try {
+            const response = await fetch(`${API_URL}/api/history/save`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                userId: currentUser.email,
+                original,
+                translated,
+                fromLang,
+                toLang
+              })
+            });
+            
+            if (response.ok) {
+              console.log('✅ Tłumaczenie zapisane w MongoDB');
+            } else {
+              console.error('❌ Błąd zapisu do MongoDB');
+            }
+          } catch (error) {
+            console.error('❌ Błąd zapisu do MongoDB:', error);
+          }
+        }
       };
 
-      const clearHistory = () => {
+      const clearHistory = async () => {
         if (confirm('Czy na pewno chcesz wyczyścić całą historię tłumaczeń?')) {
           setTranslationHistory([]);
+          
+          // Wyczyść MongoDB
+          if (currentUser) {
+            try {
+              const response = await fetch(`${API_URL}/api/history/clear?userId=${encodeURIComponent(currentUser.email)}`, {
+                method: 'DELETE'
+              });
+              
+              if (response.ok) {
+                console.log('✅ Historia wyczyszczona w MongoDB');
+              } else {
+                console.error('❌ Błąd czyszczenia MongoDB');
+              }
+            } catch (error) {
+              console.error('❌ Błąd czyszczenia MongoDB:', error);
+            }
+          }
         }
       };
 
@@ -780,7 +850,7 @@
                             <div className="flex justify-between items-start mb-2">
                               <span className="text-xs text-gray-500">{item.timestamp}</span>
                               <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full font-bold">
-                                {item.direction === 'pl-it' ? '🇵🇱→🇮🇹' : '🇮🇹→🇵🇱'}
+                                {item.fromLang === 'pl' ? '🇵🇱→🇮🇹' : '🇮🇹→🇵🇱'}
                               </span>
                             </div>
                             <div className="space-y-2">
