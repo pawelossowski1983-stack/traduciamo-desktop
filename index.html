@@ -61,19 +61,42 @@
   </div>
 
   <!-- App Container -->
-  <div class="app-container" id="appContainer">
+  <div class="app-container" id="appContainer" style="max-width: 100%; padding: 1.5rem 3rem;">
     <div class="user-info" id="userInfo">
       <span>👤 <strong id="userEmail"></strong></span>
       <button class="logout-btn" onclick="logout()">Wyloguj</button>
     </div>
     
-    <div class="header">
+    <div class="header" style="margin-bottom: 1rem;">
       <div class="header-logo">
         <div class="flag">🇵🇱</div>
         <h1>TraduciAMO</h1>
         <div class="flag">🇮🇹</div>
       </div>
-      <p>Il tuo assistente linguistico AI - Desktop</p>
+    </div>
+
+    <!-- Marketing Hero Section -->
+    <div style="text-align: center; padding: 2rem 1rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1), rgba(244, 63, 94, 0.1)); border-radius: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+      <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+        <div style="font-size: 4rem;">🍕</div>
+        <div style="font-size: 4rem;">🇮🇹</div>
+        <div style="font-size: 4rem;">🍷</div>
+        <div style="font-size: 4rem;">🎓</div>
+        <div style="font-size: 4rem;">🇵🇱</div>
+      </div>
+      
+      <h2 style="font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #10b981, #3b82f6, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem;">
+        🇵🇱 Twój Inteligentny Tłumacz Włosko-Polski z AI
+      </h2>
+      
+      <h3 style="font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #f43f5e, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1.5rem;">
+        🇮🇹 Il Tuo Traduttore Intelligente Italiano-Polacco con AI
+      </h3>
+      
+      <p style="font-size: 1.1rem; color: #6b7280; max-width: 900px; margin: 0 auto; line-height: 1.6;">
+        <strong>🇵🇱</strong> Tłumacz tekst, mowę i zdjęcia • Ucz się z AI • Zapisuj notatki • Synchronizuj między urządzeniami<br>
+        <strong>🇮🇹</strong> Traduci testo, voce e foto • Impara con AI • Salva note • Sincronizza tra dispositivi
+      </p>
     </div>
 
     <div class="success-banner">✅ Backend aktywny!</div>
@@ -91,10 +114,17 @@
 
       <!-- Zakładka Tekst -->
       <div id="tab-text" class="tab-content active">
-        <div style="position: relative;">
-          <textarea id="inputText" placeholder="Scrivi / Napisz..." style="padding-right: 100px;"></textarea>
-          <button onclick="clearTextInput()" class="clear-btn" style="position: absolute; right: 55px; top: 10px; width: 32px; height: 32px; border-radius: 50%; background: #ef4444; color: white; border: none; font-size: 1.2rem; cursor: pointer; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3); transition: all 0.3s; display: flex; align-items: center; justify-content: center;">✕</button>
-          <button onclick="startTextDictation()" id="textDictationBtn" style="position: absolute; right: 10px; bottom: 10px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #06b6d4); color: white; border: none; font-size: 1.2rem; cursor: pointer; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3); transition: all 0.3s;">🎤</button>
+        <!-- Feature description -->
+        <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #3b82f6;">
+          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>🇵🇱 Wpisz tekst:</strong> Automatyczne wykrywanie języka • Tłumaczenie z polskiego na włoski i odwrotnie • Naciśnij Enter aby przetłumaczyć<br>
+            <strong>🇮🇹 Scrivi il testo:</strong> Rilevamento automatico della lingua • Traduzione dal polacco all'italiano e viceversa • Premi Invio per tradurre
+          </p>
+        </div>
+        
+        <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
+          <textarea id="inputText" placeholder="Scrivi / Napisz..." style="flex: 1; min-height: 150px;" onkeypress="if(event.key==='Enter' && !event.shiftKey) { event.preventDefault(); translateText(); }"></textarea>
+          <button onclick="clearTextInput()" class="btn" style="padding: 0.75rem 1.25rem; background: #ef4444; color: white; white-space: nowrap;">🗑️ Wyczyść</button>
         </div>
         <button class="btn btn-primary" onclick="translateText()" style="margin-top: 1rem;">🔄 Przetłumacz</button>
         
@@ -113,6 +143,14 @@
 
       <!-- Zakładka Mowa -->
       <div id="tab-speech" class="tab-content">
+        <!-- Feature description -->
+        <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #8b5cf6;">
+          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>🇵🇱 Mów do mikrofonu:</strong> 🎤 Rozpoznawanie mowy w języku polskim i włoskim • Automatyczne tłumaczenie • Wysoka dokładność<br>
+            <strong>🇮🇹 Parla al microfono:</strong> 🎤 Riconoscimento vocale in polacco e italiano • Traduzione automatica • Alta precisione
+          </p>
+        </div>
+        
         <div style="text-align: center;">
           <button id="micBtn" class="btn-mic" onclick="toggleRecording()">🎤</button>
           <p id="micStatus" style="color: #6b7280;">Kliknij aby nagrać</p>
@@ -133,6 +171,14 @@
 
       <!-- Zakładka Screenshot -->
       <div id="tab-screenshot" class="tab-content">
+        <!-- Feature description -->
+        <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #f59e0b;">
+          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>🇵🇱 Zrzut ekranu:</strong> 📸 Win+Shift+S lub Cmd+Shift+4 • Wklej (Ctrl+V) • OCR rozpozna tekst i przetłumaczy<br>
+            <strong>🇮🇹 Screenshot:</strong> 📸 Win+Shift+S o Cmd+Shift+4 • Incolla (Ctrl+V) • OCR riconoscerà e tradurrà il testo
+          </p>
+        </div>
+        
         <div style="text-align: center;">
           <p style="color: #6b7280; margin-bottom: 1rem;">
             <strong>Windows:</strong> Win + Shift + S<br>
@@ -161,7 +207,15 @@
 
       <!-- Zakładka Historia -->
       <div id="tab-history" class="tab-content">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+        <!-- Feature description -->
+        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #10b981;">
+          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>🇵🇱 Historia tłumaczeń:</strong> 📚 Wszystkie Twoje tłumaczenia w jednym miejscu • Synchronizacja między urządzeniami • Łatwe wyszukiwanie<br>
+            <strong>🇮🇹 Cronologia traduzioni:</strong> 📚 Tutte le tue traduzioni in un posto • Sincronizzazione tra dispositivi • Ricerca facile
+          </p>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;"> justify-content: space-between; margin-bottom: 1rem;">
           <h3>Historia tłumaczeń</h3>
           <button class="btn" onclick="clearHistory()" style="padding: 0.5rem 1rem; background: #ef4444; color: white;">🗑️ Wyczyść</button>
         </div>
@@ -172,7 +226,15 @@
 
       <!-- Zakładka Notatki -->
       <div id="tab-notes" class="tab-content">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+        <!-- Feature description -->
+        <div style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #fbbf24;">
+          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>🇵🇱 Notatki z AI:</strong> 📒 Zapisuj najlepsze odpowiedzi nauczyciela • Dostęp z każdego urządzenia • Idealne do nauki<br>
+            <strong>🇮🇹 Note dall'AI:</strong> 📒 Salva le migliori risposte dell'insegnante • Accesso da qualsiasi dispositivo • Perfetto per studiare
+          </p>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;"> justify-content: space-between; margin-bottom: 1rem;">
           <h3>📒 Notatki z AI</h3>
           <button class="btn" onclick="clearNotes()" style="padding: 0.5rem 1rem; background: #ef4444; color: white;">🗑️ Wyczyść wszystkie</button>
         </div>
@@ -183,7 +245,15 @@
 
       <!-- Zakładka Nauczyciel AI -->
       <div id="tab-teacher" class="tab-content">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; align-items: center;">
+        <!-- Feature description -->
+        <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(59, 130, 246, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #6366f1;">
+          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>🇵🇱 Nauczyciel AI:</strong> 👨‍🏫 Zadawaj pytania o gramatykę, wymowę, idiomy • Kontekst ostatniego tłumaczenia • Zapisuj najlepsze odpowiedzi<br>
+            <strong>🇮🇹 Insegnante AI:</strong> 👨‍🏫 Fai domande su grammatica, pronuncia, modi di dire • Contesto dell'ultima traduzione • Salva le migliori risposte
+          </p>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; align-items: center;"> margin-bottom: 1rem; align-items: center;">
           <h3 style="font-weight: 700; color: #1f2937;">👨‍🏫 Nauczyciel AI</h3>
           <button onclick="clearChat()" style="padding: 0.5rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.75rem;">
             🗑️ Wyczyść
@@ -209,25 +279,19 @@
           </div>
         </div>
 
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
-          <div style="flex: 1; position: relative;">
-            <input
-              type="text"
-              id="chatInput"
-              placeholder="Zadaj pytanie nauczycielowi..."
-              onkeypress="if(event.key==='Enter') sendChatMessage()"
-              style="width: 100%; padding: 0.75rem 90px 0.75rem 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; font-size: 0.9rem;"
-            />
-            <button onclick="clearChatInput()" class="clear-btn" style="position: absolute; right: 50px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 50%; background: #ef4444; color: white; border: none; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3); display: flex; align-items: center; justify-content: center;">✕</button>
-            <button onclick="startChatDictation()" id="chatDictationBtn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #06b6d4); color: white; border: none; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);">🎤</button>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Zadaj pytanie nauczycielowi..."
+            onkeypress="if(event.key==='Enter') sendChatMessage()"
+            style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; font-size: 0.9rem;"
+          />
+          <div style="display: flex; gap: 0.5rem;">
+            <button onclick="startChatDictation()" id="chatDictationBtn" style="flex: 1; padding: 0.75rem 1rem; background: linear-gradient(135deg, #3b82f6, #06b6d4); color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; cursor: pointer;">🎤 Powiedz</button>
+            <button onclick="clearChatInput()" style="padding: 0.75rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; cursor: pointer;">🗑️ Wyczyść</button>
+            <button onclick="sendChatMessage()" id="sendChatBtn" style="flex: 1; padding: 0.75rem 1rem; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; cursor: pointer;">📤 Wyślij</button>
           </div>
-          <button
-            onclick="sendChatMessage()"
-            id="sendChatBtn"
-            style="padding: 0.75rem 1.25rem; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 1.25rem;"
-          >
-            📤
-          </button>
         </div>
       </div>
     </div>
@@ -830,24 +894,41 @@ Come stai?"` }
 
       const utterance = new SpeechSynthesisUtterance(currentTranslation);
       
-      // Poprawiony głos polski
+      // Poprawiony głos polski - kobieta + wolniej
       if (lastTranslationLang === 'pl') {
         utterance.lang = 'pl-PL';
-        utterance.rate = 0.85;
-        utterance.pitch = 1.0;
+        utterance.rate = 0.75; // Wolniej niż 0.85
+        utterance.pitch = 1.1; // Wyższy pitch dla kobiecego głosu
         
-        // Spróbuj znaleźć lepszy głos polski
+        // Preferuj kobiecy głos polski
         const voices = window.speechSynthesis.getVoices();
-        const polishVoice = voices.find(v => 
-          v.lang === 'pl-PL' && (v.name.includes('Google') || v.name.includes('Microsoft'))
-        ) || voices.find(v => v.lang === 'pl-PL');
+        
+        // Priorytet 1: Kobiecy głos Google/Microsoft
+        let polishVoice = voices.find(v => 
+          v.lang === 'pl-PL' && 
+          (v.name.includes('Google') || v.name.includes('Microsoft')) &&
+          (v.name.includes('female') || v.name.includes('Female') || v.name.includes('Paulina') || v.name.includes('Zofia'))
+        );
+        
+        // Priorytet 2: Jakikolwiek kobiecy głos polski
+        if (!polishVoice) {
+          polishVoice = voices.find(v => 
+            v.lang === 'pl-PL' && !v.name.includes('male')
+          );
+        }
+        
+        // Priorytet 3: Pierwszy polski głos
+        if (!polishVoice) {
+          polishVoice = voices.find(v => v.lang === 'pl-PL');
+        }
         
         if (polishVoice) {
           utterance.voice = polishVoice;
+          console.log('🔊 Wybrany głos:', polishVoice.name);
         }
       } else {
         utterance.lang = 'it-IT';
-        utterance.rate = 0.9;
+        utterance.rate = 0.85;
         utterance.pitch = 1.0;
       }
 
@@ -959,12 +1040,41 @@ Come stai?"` }
         <div class="history-item">
           <div class="history-header">
             <span>${item.timestamp}</span>
-            <span>${item.direction === 'pl-it' ? '🇵🇱→🇮🇹' : item.direction === 'it-pl' ? '🇮🇹→🇵🇱' : '📝'}</span>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <span>${item.direction === 'pl-it' ? '🇵🇱→🇮🇹' : item.direction === 'it-pl' ? '🇮🇹→🇵🇱' : '📝'}</span>
+              <button onclick="deleteHistoryItem('${item.id}')" style="padding: 0.25rem 0.5rem; background: #ef4444; color: white; border: none; border-radius: 0.5rem; font-size: 0.75rem; cursor: pointer; font-weight: 700;">🗑️ Usuń</button>
+            </div>
           </div>
           <div class="history-text"><strong>Oryginalny:</strong> ${item.original}</div>
           <div class="history-text" style="color: #3b82f6;"><strong>Tłumaczenie:</strong> ${item.translated}</div>
         </div>
       `).join('');
+    }
+
+    async function deleteHistoryItem(itemId) {
+      if (!confirm('Usunąć to tłumaczenie z historii?')) return;
+      
+      if (!currentUser || !authToken) {
+        // Usuń lokalnie jeśli nie zalogowany
+        history = history.filter(item => item.id !== itemId);
+        displayHistory();
+        updateHistoryCount();
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_URL}/api/history/delete/${itemId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        
+        if (response.ok) {
+          console.log('✅ Tłumaczenie usunięte');
+          await loadHistory();
+        }
+      } catch (error) {
+        console.error('❌ Błąd usuwania tłumaczenia:', error);
+      }
     }
 
     async function clearHistory() {
