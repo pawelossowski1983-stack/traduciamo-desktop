@@ -79,18 +79,16 @@
     <div style="text-align: center; padding: 2rem 1rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1), rgba(244, 63, 94, 0.1)); border-radius: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
       <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
         <div style="font-size: 4rem;">🍕</div>
-        <div style="font-size: 4rem;">🇮🇹</div>
         <div style="font-size: 4rem;">🍷</div>
         <div style="font-size: 4rem;">🎓</div>
-        <div style="font-size: 4rem;">🇵🇱</div>
       </div>
       
       <h2 style="font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #10b981, #3b82f6, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem;">
-        🇵🇱 Twój Inteligentny Tłumacz Włosko-Polski z AI
+        Inteligentny Tłumacz Włosko-Polski z AI
       </h2>
       
       <h3 style="font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #f43f5e, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1.5rem;">
-        🇮🇹 Il Tuo Traduttore Intelligente Italiano-Polacco con AI
+        Il Traduttore Intelligente Italiano-Polacco con AI
       </h3>
       
       <p style="font-size: 1.1rem; color: #6b7280; max-width: 900px; margin: 0 auto; line-height: 1.6;">
@@ -109,16 +107,17 @@
         <button class="tab" onclick="switchTab('screenshot')">📸 Zrzut</button>
         <button class="tab" onclick="switchTab('history')">📚 Historia (<span id="historyCount">0</span>)</button>
         <button class="tab" onclick="switchTab('notes')">📒 Notatki (<span id="notesCount">0</span>)</button>
-        <button class="tab" onclick="switchTab('teacher')">👨‍🏫 AI</button>
+        <button class="tab" onclick="switchTab('teacher')">👨‍🏫 Nauczyciel AI</button>
       </div>
 
       <!-- Zakładka Tekst -->
       <div id="tab-text" class="tab-content active">
         <!-- Feature description -->
         <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #3b82f6;">
-          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
-            <strong>🇵🇱 Wpisz tekst:</strong> Automatyczne wykrywanie języka • Tłumaczenie z polskiego na włoski i odwrotnie • Naciśnij Enter aby przetłumaczyć<br>
-            <strong>🇮🇹 Scrivi il testo:</strong> Rilevamento automatico della lingua • Traduzione dal polacco all'italiano e viceversa • Premi Invio per tradurre
+          <p style="text-align: center; font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>🎤 Tłumaczenie tekstu <br></strong>
+            Automatyczne wykrywanie języka • Tłumaczenie z polskiego na włoski i odwrotnie • Poprawna wymowa<br>
+            Rilevamento automatico della lingua • Traduzione dal polacco all'italiano e viceversa • Pronuncia corretta
           </p>
         </div>
         
@@ -126,7 +125,14 @@
           <textarea id="inputText" placeholder="Scrivi / Napisz..." style="flex: 1; min-height: 150px;" onkeypress="if(event.key==='Enter' && !event.shiftKey) { event.preventDefault(); translateText(); }"></textarea>
           <button onclick="clearTextInput()" class="btn" style="padding: 0.75rem 1.25rem; background: #ef4444; color: white; white-space: nowrap;">🗑️ Wyczyść</button>
         </div>
-        <button class="btn btn-primary" onclick="translateText()" style="margin-top: 1rem;">🔄 Przetłumacz</button>
+        
+        <div style="text-align: center; margin-top: 1rem;">
+          <button 
+            class="btn btn-primary btn-fixed-width" 
+            onclick="translateText()">
+            🔄 Przetłumacz
+          </button>
+        </div>
         
         <div id="loading-text" class="loading hidden">
           <p style="font-size: 1.1rem; font-weight: 600;">Tłumaczę<span class="dots-loader"><span></span><span></span><span></span></span></p>
@@ -145,9 +151,10 @@
       <div id="tab-speech" class="tab-content">
         <!-- Feature description -->
         <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #8b5cf6;">
-          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
-            <strong>🇵🇱 Mów do mikrofonu:</strong> 🎤 Rozpoznawanie mowy w języku polskim i włoskim • Automatyczne tłumaczenie • Wysoka dokładność<br>
-            <strong>🇮🇹 Parla al microfono:</strong> 🎤 Riconoscimento vocale in polacco e italiano • Traduzione automatica • Alta precisione
+          <p style="text-align: center; 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+             <strong>🎤 Tłumaczenie z mowy<br></strong>
+              Rozpoznawanie mowy w języku polskim i włoskim • Automatyczne tłumaczenie • Wysoka dokładność<br>
+              Riconoscimento vocale in polacco e italiano • Traduzione automatica • Alta precisione
           </p>
         </div>
         
@@ -173,19 +180,15 @@
       <div id="tab-screenshot" class="tab-content">
         <!-- Feature description -->
         <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #f59e0b;">
-          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
-            <strong>🇵🇱 Zrzut ekranu:</strong> 📸 Win+Shift+S lub Cmd+Shift+4 • Wklej (Ctrl+V) • OCR rozpozna tekst i przetłumaczy<br>
-            <strong>🇮🇹 Screenshot:</strong> 📸 Win+Shift+S o Cmd+Shift+4 • Incolla (Ctrl+V) • OCR riconoscerà e tradurrà il testo
+          <p style="text-align: center; font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>📸 Tłumaczenie z obrazu<br></strong>
+            Zrób Print Screen (Win + Shift + S) • Wklej (Ctrl+V) • OCR rozpozna tekst i przetłumaczy<br>
+            Fai uno screenshot (Win + Shift + S) • Incolla (Ctrl+V) • OCR riconoscerà e tradurrà il testo
           </p>
         </div>
         
-        <div style="text-align: center;">
-          <p style="color: #6b7280; margin-bottom: 1rem;">
-            <strong>Windows:</strong> Win + Shift + S<br>
-            <strong>Mac:</strong> Cmd + Shift + 4
-          </p>
-          <div id="pasteArea" tabindex="0" style="border: 3px dashed #cbd5e1; border-radius: 1rem; padding: 3rem 2rem; background: #f8fafc; cursor: pointer; transition: all 0.3s;">
-            <p style="font-size: 2rem; margin-bottom: 0.5rem;">📋</p>
+          <div id="pasteArea" tabindex="0" style="text-align: center; border: 3px dashed #cbd5e1; border-radius: 1rem; padding: 3rem 2rem; background: #f8fafc; cursor: pointer; transition: all 0.3s;">
+            <p style=" 2rem; margin-bottom: 0.5rem;">📋</p>
             <p style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">Kliknij tutaj i wklej (Ctrl+V)</p>
             <p style="font-size: 0.85rem; color: #6b7280;">Zrób screenshot i wklej go tutaj</p>
           </div>
@@ -209,15 +212,15 @@
       <div id="tab-history" class="tab-content">
         <!-- Feature description -->
         <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #10b981;">
-          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
-            <strong>🇵🇱 Historia tłumaczeń:</strong> 📚 Wszystkie Twoje tłumaczenia w jednym miejscu • Synchronizacja między urządzeniami • Łatwe wyszukiwanie<br>
-            <strong>🇮🇹 Cronologia traduzioni:</strong> 📚 Tutte le tue traduzioni in un posto • Sincronizzazione tra dispositivi • Ricerca facile
+          <p style="text-align: center; 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>📚 Historia tłumaczeń<br></strong>Wszystkie tłumaczenia w jednym miejscu • Synchronizacja między urządzeniami • Łatwe wyszukiwanie<br>
+            Tutte le traduzioni in un posto • Sincronizzazione tra dispositivi • Ricerca facile
           </p>
         </div>
         
         <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-          <h3>Historia tłumaczeń</h3>
-          <button class="btn" onclick="clearHistory()" style="padding: 0.5rem 1rem; background: #ef4444; color: white;">🗑️ Wyczyść</button>
+          
+          <button class="btn" onclick="clearHistory()" style="padding: 0.5rem 1rem; background: #ef4444; color: white;">🗑️ Wyczyść historię</button>
         </div>
         <div class="history-container">
           <div id="historyList"></div>
@@ -228,14 +231,14 @@
       <div id="tab-notes" class="tab-content">
         <!-- Feature description -->
         <div style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #fbbf24;">
-          <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
-            <strong>🇵🇱 Notatki z AI:</strong> 📒 Zapisuj najlepsze odpowiedzi nauczyciela • Dostęp z każdego urządzenia • Idealne do nauki<br>
-            <strong>🇮🇹 Note dall'AI:</strong> 📒 Salva le migliori risposte dell'insegnante • Accesso da qualsiasi dispositivo • Perfetto per studiare
+          <p style="text-align:center; 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
+            <strong>📒 Notatki z AI</strong><br>Zapisuj najlepsze odpowiedzi nauczyciela • Dostęp z każdego urządzenia • Idealne do nauki<br>
+             Salva le migliori risposte dell'insegnante • Accesso da qualsiasi dispositivo • Perfetto per studiare
           </p>
         </div>
         
         <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-          <h3>📒 Notatki z AI</h3>
+          
           <button class="btn" onclick="clearNotes()" style="padding: 0.5rem 1rem; background: #ef4444; color: white;">🗑️ Wyczyść wszystkie</button>
         </div>
         <div class="history-container">
@@ -246,19 +249,18 @@
       <!-- Zakładka Nauczyciel AI -->
       <div id="tab-teacher" class="tab-content">
         <!-- Feature description -->
-        <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(59, 130, 246, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #6366f1;">
+        <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(59, 130, 246, 0.1)); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #6366f1; text-align: center;">
           <p style="font-size: 0.95rem; color: #1f2937; line-height: 1.6; margin: 0;">
-            <center>
-              <strong>Nauczyciel AI:</strong> 👨‍🏫 Zadawaj pytania o gramatykę, wymowę, idiomy • Kontekst ostatniego tłumaczenia • Zapisuj najlepsze odpowiedzi w notatkach<br>
-            <strong>Insegnante AI:</strong> 👨‍🏫 Fai domande su grammatica, pronuncia, modi di dire • Contesto dell'ultima traduzione • Salva le migliori risposte
+            <strong>👨‍🏫 Nauczyciel AI</strong><br>
+            Zadawaj pytania o gramatykę, wymowę, idiomy • Kontekst ostatniego tłumaczenia • Zapisuj najlepsze odpowiedzi do notatek<br>
+            Fai domande su grammatica, pronuncia, modi di dire • Contesto dell'ultima traduzione • Annota le migliori risposte nei tuoi appunti
           </p>
-            </center>
         </div>
         
-        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; align-items: center;"> margin-bottom: 1rem; align-items: center;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; align-items: center;">
           <h3 style="font-weight: 700; color: #1f2937;">👨‍🏫 Nauczyciel AI</h3>
           <button onclick="clearChat()" style="padding: 0.5rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.75rem;">
-            🗑️ Wyczyść
+            🗑️ Wyczyść czat
           </button>
         </div>
 
@@ -289,11 +291,31 @@
             onkeypress="if(event.key==='Enter') sendChatMessage()"
             style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; font-size: 0.9rem;"
           />
-          <div style="display: flex; gap: 0.5rem;">
-            <button onclick="startChatDictation()" id="chatDictationBtn" style="flex: 1; padding: 0.75rem 1rem; background: linear-gradient(135deg, #3b82f6, #06b6d4); color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; cursor: pointer;">🎤 Powiedz</button>
-            <button onclick="clearChatInput()" style="padding: 0.75rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; cursor: pointer;">🗑️ Wyczyść</button>
-            <button onclick="sendChatMessage()" id="sendChatBtn" style="flex: 1; padding: 0.75rem 1rem; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; cursor: pointer;">📤 Wyślij</button>
-          </div>
+            <div style="display: flex; gap: 0.5rem; justify-content: left">
+                 <button 
+                onclick="sendChatMessage()" 
+                id="sendChatBtn" 
+                class="fixed-width-btn" 
+                style="padding: 0.75rem 1rem; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; cursor: pointer;">
+                📤 Wyślij
+              </button>
+              
+              <button 
+                onclick="startChatDictation()" 
+                id="chatDictationBtn" 
+                class="fixed-width-btn" 
+                style="padding: 0.75rem 1rem; background: linear-gradient(135deg, #3b82f6, #06b6d4); color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; cursor: pointer;">
+                🎤 Powiedz
+              </button>
+              
+              <button 
+                onclick="clearChatInput()" 
+                style="padding: 0.75rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.75rem; font-weight: 700; font-size: 0.9rem; cursor: pointer;">
+                🗑️ Wyczyść
+              </button>
+              
+           
+            </div>
         </div>
       </div>
     </div>
@@ -800,6 +822,7 @@ INSTRUKCJE:
 3. Jeśli tekst jest po polsku → przetłumacz na włoski
 4. ZACHOWAJ formatowanie:
    - Nowe linie (Enter) → zachowaj jako \\n
+   - Tabele → zachowaj strukturę tabeli
    - Akapity → zachowaj odstępy
    - Listy punktowane → zachowaj numerację/punkty
    - Nagłówki → zachowaj wielkość liter
@@ -1219,13 +1242,60 @@ Come stai?"` }
             content: msg.content
           }));
 
-        const data = await callAPI([
-          ...conversationHistory.slice(-6), // Ostatnie 6 wiadomości (3 pary)
-          {
-            role: 'user',
-            content: `Jesteś pomocnym nauczycielem języka włoskiego. Odpowiadaj po polsku, wyjaśniaj gramatykę, słownictwo i idiomy włoskie w przystępny sposób. Używaj przykładów.${contextInfo}\n\nPytanie: ${message}`
-          }
-        ], 1500);
+const data = await callAPI([
+  ...conversationHistory.slice(-6),
+  {
+    role: 'user',
+    content: `Jesteś pomocnym nauczycielem języka włoskiego dla Pawła, który podróżuje do Włoch z rodziną: żoną Moniką i dwójką dzieci - 8 letnim Kubą i 4 letnią Dominiką.
+
+TWÓJ STYL NAUCZANIA:
+- Odpowiadaj po polsku
+- Wyjaśniaj gramatykę, słownictwo i idiomy włoskie w przystępny sposób
+- Używaj praktycznych przykładów z codziennych sytuacji
+
+KONTEKST RODZINY:
+- Paweł i Monika: rodzice. Paweł uczy się włoskiego do podróży
+- Kuba, Dominika: dzieci. Zazwyczaj Paweł wypowiada się za wszystkich, czasami jednk próbują same i potrzebują prostych zwrotów
+
+SYTUACJE DO PRZYKŁADÓW:
+Gdy podajesz przykłady, używaj sytuacji z podróży rodziny Pawła do Włoch:
+- W restauracji: zamawianie dla całej rodziny, pytanie o napoje dla dzieci, prośba o rachunek
+- W barze kawowym: zamawianie kawy, zamawianie słodkiego, prośba o sok dla dzieci
+- W lodziarni: zamawianie lodów, ilosć porcji, wybór smaków dla dzieci
+- W sklepie: zakupy, pytanie o ceny, wybór rodzaju płatności, prośba o torbę
+- Na dworcu/lotnisku: nadawanie bagażu, pytanie o kierunki, kupowanie biletów
+- W taksówce: podawanie adresu, pytanie o cenę, płatność
+- W komunikacji miejskiej: kupowanie biletów, pytanie o przystanek
+- W apartamencie lub hotelu: rezerwacja, pytanie o łóżka dla dzieci, płatność, jak się kontaktować gdy coś nie działa
+- W muzeum/atrakcji: bilety rodzinne, godziny otwarcia
+
+PRZYKŁADY IMION:
+Gdy tworzysz przykładowe dialogi, używaj:
+- Paweł (ojciec) - dla zwrotów formalnych i praktycznych
+- Monika (matka) - dla zwrotów związanych z zakupami, restauracją
+- Kuba, Dominika (dzieci) - dla prostych zwrotów, prośby
+
+PRZYKŁAD JAK ODPOWIADAĆ:
+Pytanie: "Jak zamówić pizzę w restauracji?"
+Odpowiedź: 
+"W restauracji możesz użyć następujących zwrotów:
+- 'Vorremmo ordinare tre pizze, per favore.' (Chcielibyśmy zamówić trzy pizze, proszę)
+- 'Una margherita per i bambini' (Jedna margherita dla dzieci)
+- 'Avete un menu per bambini?' (Czy macie menu dla dzieci?)
+
+Jeśli Kuba, Dominika lub Monika chcą zamówić sami:
+- 'Vorrei una pizza margherita, per favore.' (Chciałbym/Chciałabym pizzę margherita, proszę)
+
+Przydatne zwroty:
+- 'Senza cipolla' (Bez cebuli)
+- 'L'acqua per i bambini' (Wodę dla dzieci)
+- 'Il conto, per favore' (Rachunek, proszę)"
+
+${contextInfo}
+
+Pytanie: ${message}`
+  }
+], 1500);
 
         // Usuń "odpowiada..." indicator
         chatMessages = chatMessages.filter(m => !m.isTyping);
